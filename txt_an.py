@@ -1,40 +1,25 @@
-import string
+from random import randint as rnd
 
-class TextAnalyzer:
+memReg = '/members.txt'
+exReg = '/inactive.txt'
+fee =('yes','no')
 
-    def __init__(self, text):
+def genFiles(current,old):
+    with open(current,'w+') as writefile: 
+        writefile.write('Membership No  Date Joined  Active  \n')
+        data = "{:^13}  {:<11}  {:<6}\n"
 
-        for p in string.punctuation:
-            text = text.replace(p, " ")
-
-        self.text = text.lower()
-
-    def freqAll(self):
-
-        words = self.text.split()
-        frequency = {}
-
-        for word in words:
-            if word in frequency:
-                frequency[word] += 1
-            else:
-                frequency[word] = 1
-
-        return frequency
-
-    def freqof(self, word):
-        frequency = self.freqAll()
-        print(f"Frequency of '{word}' : {frequency.get(word.lower(), 0)}")
+        for rowno in range(20):
+            date = str(rnd(2015,2020))+ '-' + str(rnd(1,12))+'-'+str(rnd(1,25))
+            writefile.write(data.format(rnd(10000,99999),date,fee[rnd(0,1)]))
 
 
-strr = "Hello, My Name is Rudra! My name is Rudra."
+    with open(old,'w+') as writefile: 
+        writefile.write('Membership No  Date Joined  Active  \n')
+        data = "{:^13}  {:<11}  {:<6}\n"
+        for rowno in range(3):
+            date = str(rnd(2015,2020))+ '-' + str(rnd(1,12))+'-'+str(rnd(1,25))
+            writefile.write(data.format(rnd(10000,99999),date,fee[1]))
 
-obj = TextAnalyzer(strr)
 
-a = obj.freqAll()
-
-for key, value in a.items():
-    print(f"{key} : {value}")
-
-obj.freqof("my")
-obj.freqof("rudra")
+genFiles(memReg,exReg)
